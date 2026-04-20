@@ -35,7 +35,19 @@ class TTSGenerator:
         )
         print("Model loaded successfully.")
 
-    def generate_audio(self, text: str, ref_text: str = None, ref_audio: str = None, output_path: str = "TempAudios\\out.wav", sample_rate: int = 24000, language: str = "pt-br"):
+    def generate_audio(
+        self, 
+        text: str, 
+        ref_text: str = None, 
+        ref_audio: str = None, 
+        output_path: str = "TempAudios\\out.wav", 
+        sample_rate: int = 24000, 
+        language: str = "pt",
+        instruct: str = "",
+        denoise: bool = True,
+        class_temperature: int = 0,
+        speed: float = 1.0
+        ):
         """
         Generates audio from text, with optional zero-shot voice cloning if ref_text and ref_audio are provided, and saves it to a WAV file.
         
@@ -44,6 +56,11 @@ class TTSGenerator:
         :param ref_audio: (Optional) Path to the reference audio sample file.
         :param output_path: Path where the output audio will be saved.
         :param sample_rate: Audio sampling rate (default 24kHz).
+        :param language: Language of the text (default "pt").
+        :param instruct: Whether to use instruction-based generation (default True).
+        :param denoise: Whether to denoise the audio (default True).
+        :param class_temperature: Temperature for class-based generation (default 1.0).
+        :param speed: Speed of the generated audio (default 1.0).
         """
         if self.model is None:
             raise RuntimeError("Model is not loaded. Cannot generate audio.")
@@ -60,12 +77,20 @@ class TTSGenerator:
                 text=text,
                 ref_text=ref_text,
                 ref_audio=ref_audio,
-                language=language
+                language=language,
+                instruct= instruct,
+                denoise = denoise,
+                class_temperature = class_temperature,
+                speed = speed
             )
         else:
             audio = self.model.generate(
                 text=text,
-                language=language
+                language=language,
+                instruct= instruct,
+                denoise = denoise,
+                class_temperature = class_temperature,
+                speed = speed
             ) 
         
         # Se 'output_path' for um caminho relativo, junte com a pasta em que este script está

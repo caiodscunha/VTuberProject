@@ -7,5 +7,8 @@ if __name__ == "__main__":
         text="TEXTO QUE SERÁ FALADO",
         ref_text="FALA DO AUDIO REFERENCIA",
         ref_audio="refAudio.wav",
-        output_path="TempAudios\\out.wav"
+        output_path="TempAudios\\out.wav",
+        denoise = True,
+        class_temperature=1,
+        speed=1.4
     )
